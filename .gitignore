@@ -1,0 +1,11 @@
+﻿ItemsOnSurface/OnSurface/.vs
+ItemsOnSurface/OnSurface/Library
+ItemsOnSurface/OnSurface/Logs
+ItemsOnSurface/OnSurface/obj
+ItemsOnSurface/OnSurface/Temp
+ItemsOnSurface/OnSurface/.vsconfig
+ItemsOnSurface/OnSurface/Assembly-CSharp.csproj
+ItemsOnSurface/OnSurface/Assembly-CSharp.Player.csproj
+ItemsOnSurface/OnSurface/Unity.CollabProxy.Editor.csproj
+*.csproj
+ItemsOnSurface/OnSurface/OnSurface.sln
