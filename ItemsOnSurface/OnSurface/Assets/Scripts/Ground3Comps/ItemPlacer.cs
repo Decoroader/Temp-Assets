@@ -6,18 +6,8 @@ public class ItemPlacer : MonoBehaviour
 {
     public List<GameObject> ListObjectsForPlace;
 
-    //private int numbObjects;
-    
-    //void Start()
-    //{
-    //    numbObjects = ListObjectsForPlace.Count;
-    //    PlacerFirst(numbObjects);
-
-    //    StartCoroutine(CollisionChecker());
-    //}
-
     public GameObject[] itemPrefabs;
-    //public List<GameObject> CurrentGroundList = new List<GameObject>();
+    
     public GameObject hero;
     public GameObject surface;
 
