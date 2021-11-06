@@ -44,24 +44,20 @@ public class ItemPlacer : MonoBehaviour
         while (numbObj > 0)
         {
             tempPos = GetCoordinate(boundsOverallSurface);
-            Renderer surfeceObj = CoordonateCorrectnessDetector(tempPos);
+            Renderer surfaceObjMesh = CoordonateCorrectnessDetector(tempPos);
 
-            if (surfeceObj)
-            {
-                float tY = surfeceObj.bounds.max.y + 0.5f;
-                tempPos = tempPos + Vector3.up * tY;
-                ListObjectsForPlace[numbObj - 1].transform.position = tempPos;
-                Debug.Log("position " + ListObjectsForPlace[numbObj - 1].transform.position);
-                //SetToSurface(tempPos);
-                numbObj--;
-            }
+            if (surfaceObjMesh)
+                SetToSurface(ListObjectsForPlace[numbObj-- - 1], tempPos, surfaceObjMesh);
         }
     }
-    //void SetToSurface(GameObject objForPlace, Vector3 positionForPlaceObject)
-    //{
-    //    SurfaceChildrenRendererList
-    //}
-    
+    void SetToSurface(GameObject objForPlace, Vector3 positionForPlaceObject, Renderer surfaceMesh)
+    {
+        Bounds currObjBounds = objForPlace.GetComponent<Renderer>().bounds;
+        float tY = surfaceMesh.bounds.max.y + (currObjBounds.center.y - currObjBounds.min.y);       // the profile of the object is taken into account in brackets
+        positionForPlaceObject += Vector3.up * tY;
+        objForPlace.transform.position = positionForPlaceObject;
+    }
+
     Vector3 GetCoordinate(Bounds bounds)
     {
         float tX = Random.Range(bounds.min.x, bounds.max.x);
