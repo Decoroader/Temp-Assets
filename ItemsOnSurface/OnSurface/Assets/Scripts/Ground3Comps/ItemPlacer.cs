@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemPlacer : MonoBehaviour
 {
     public List<GameObject> ListObjectsForPlace;
+    public List<GameObject> ListPlacedObjects;
 
     public GameObject[] itemPrefabs;
     
@@ -47,7 +48,11 @@ public class ItemPlacer : MonoBehaviour
             Renderer surfaceObjMesh = CoordonateCorrectnessDetector(tempPos);
 
             if (surfaceObjMesh)
-                SetToSurface(ListObjectsForPlace[numbObj-- - 1], tempPos, surfaceObjMesh);
+            {
+                SetToSurface(ListObjectsForPlace[numbObj - 1], tempPos, surfaceObjMesh);
+                if (!DoesIntersectsBoundsTwoObj(ListObjectsForPlace[numbObj - 1], ListPlacedObjects))
+                    numbObj--;
+            }
         }
     }
     void SetToSurface(GameObject objForPlace, Vector3 positionForPlaceObject, Renderer surfaceMesh)
@@ -58,6 +63,15 @@ public class ItemPlacer : MonoBehaviour
         objForPlace.transform.position = positionForPlaceObject;
     }
 
+    bool DoesIntersectsBoundsTwoObj(GameObject currObj, List<GameObject> IntersectionWithThese)
+    {
+        Bounds currObjBounds = currObj.GetComponent<Renderer>().bounds;
+        foreach (GameObject withThis in IntersectionWithThese)
+            if (currObjBounds.Intersects(withThis.GetComponent<Renderer>().bounds))
+                return true;
+        IntersectionWithThese.Add(currObj);
+        return false;
+    }
     Vector3 GetCoordinate(Bounds bounds)
     {
         float tX = Random.Range(bounds.min.x, bounds.max.x);
@@ -85,7 +99,7 @@ public class ItemPlacer : MonoBehaviour
     {
         List<GameObject> tempObjectList = new List<GameObject>();
         for (int it = 0; it < A_itemPrefabs.Length; it++)
-            tempObjectList.Add(Instantiate(A_itemPrefabs[it], Vector3.up * 15, Quaternion.identity));
+            tempObjectList.Add(Instantiate(A_itemPrefabs[it], Vector3.up * (15 + it*5), Quaternion.identity));
         return tempObjectList;
     }
     void OnDrawGizmos()
