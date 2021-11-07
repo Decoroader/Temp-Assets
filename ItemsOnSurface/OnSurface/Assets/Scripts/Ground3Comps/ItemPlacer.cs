@@ -12,22 +12,39 @@ public class ItemPlacer : MonoBehaviour
     public GameObject hero;
     public GameObject surface;
 
-    private GameObject tempItem;
+    [SerializeField]private int numberJam;
 
     private List<Renderer> SurfaceChildrenRendererList = new List<Renderer>();
     private Bounds boundsOverallSurface;
-
-
+#if UNITY_EDITOR
+    [SerializeField] private bool settingsSwitcher;
+    private bool tempSwitcher;
+#endif
     void Start()
     {
+        numberJam = 5;
+        settingsSwitcher = true;
+        GetSurfaceDataObjectsForPlace();
 
+        PlacerFirst(numberJam);
+    }
+#if UNITY_EDITOR
+    private void Update()
+    {
+        if(settingsSwitcher != tempSwitcher)
+        {
+
+            tempSwitcher = settingsSwitcher;
+            PlacerFirst(numberJam);
+        }
+    }
+#endif
+    void GetSurfaceDataObjectsForPlace()
+    {
         SurfaceChildrenRendererList = GetChildrenRendererList(surface);
         boundsOverallSurface = GetAllBounds(surface);
-
         ListObjectsForPlace = GetListOfObjectForPlace(itemPrefabs);
-        PlacerFirst(5);
     }
-
     Bounds GetAllBounds(GameObject parentObj)
     {
         Bounds tempBounds = new Bounds();       // is zero dimensions
@@ -42,6 +59,8 @@ public class ItemPlacer : MonoBehaviour
     void PlacerFirst(int numbObj)
     {
         Vector3 tempPos;
+        ListPlacedObjects.Clear();
+
         while (numbObj > 0)
         {
             tempPos = GetCoordinate(boundsOverallSurface);
@@ -63,13 +82,15 @@ public class ItemPlacer : MonoBehaviour
         objForPlace.transform.position = positionForPlaceObject;
     }
 
-    bool DoesIntersectsBoundsTwoObj(GameObject currObj, List<GameObject> IntersectionWithThese)
+    bool DoesIntersectsBoundsTwoObj(GameObject currObj, List<GameObject> ListIntersectionWithThese)
     {
         Bounds currObjBounds = currObj.GetComponent<Renderer>().bounds;
-        foreach (GameObject withThis in IntersectionWithThese)
+        foreach (GameObject withThis in ListIntersectionWithThese)
             if (currObjBounds.Intersects(withThis.GetComponent<Renderer>().bounds))
                 return true;
-        IntersectionWithThese.Add(currObj);
+
+        ListIntersectionWithThese.Add(currObj);
+        currObj.GetComponent<Rigidbody>().isKinematic = true;
         return false;
     }
     Vector3 GetCoordinate(Bounds bounds)
