@@ -13,17 +13,19 @@ public class ItemPlacer : MonoBehaviour
     public GameObject surface;
 
     [SerializeField]private int numberJam;
+    [SerializeField] private float maxObjectSize;
 
     private List<Renderer> SurfaceChildrenRendererList = new List<Renderer>();
     private Bounds boundsOverallSurface;
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
     [SerializeField] private bool settingsSwitcher;
     private bool tempSwitcher;
-#endif
+//#endif
     void Start()
     {
         numberJam = 5;
-        settingsSwitcher = true;
+        maxObjectSize = 3;  
+        settingsSwitcher = tempSwitcher = true;
         GetSurfaceDataObjectsForPlace();
 
         PlacerFirst(numberJam);
@@ -31,9 +33,8 @@ public class ItemPlacer : MonoBehaviour
 #if UNITY_EDITOR
     private void Update()
     {
-        if(settingsSwitcher != tempSwitcher)
+        if (settingsSwitcher != tempSwitcher)
         {
-
             tempSwitcher = settingsSwitcher;
             PlacerFirst(numberJam);
         }
@@ -52,10 +53,11 @@ public class ItemPlacer : MonoBehaviour
             tempBounds.Encapsulate(currChildRend.bounds);
         return tempBounds;
     }
-    
+
     // TODO 
-    
-    
+    // maxObjectSize should be castomized?
+
+
     void PlacerFirst(int numbObj)
     {
         Vector3 tempPos;
@@ -64,20 +66,25 @@ public class ItemPlacer : MonoBehaviour
         while (numbObj > 0)
         {
             tempPos = GetCoordinate(boundsOverallSurface);
-            Renderer surfaceObjMesh = CoordonateCorrectnessDetector(tempPos);
-
-            if (surfaceObjMesh)
+            RaycastHit hit;
+            if (Physics.Raycast(tempPos, Vector3.down, out hit, 11))
             {
-                SetToSurface(ListObjectsForPlace[numbObj - 1], tempPos, surfaceObjMesh);
-                if (!DoesIntersectsBoundsTwoObj(ListObjectsForPlace[numbObj - 1], ListPlacedObjects))
-                    numbObj--;
+                tempPos = hit.point;
+                GameObject currObj = ListObjectsForPlace[numbObj - 1];
+                SetToSurface(currObj, tempPos);
+                currObj.GetComponent<Rigidbody>().isKinematic = true;
+                numbObj--;
+
             }
+
+            //if (!DoesIntersectsBoundsTwoObj(ListObjectsForPlace[numbObj - 1], ListPlacedObjects))
         }
     }
-    void SetToSurface(GameObject objForPlace, Vector3 positionForPlaceObject, Renderer surfaceMesh)
+    void SetToSurface(GameObject objForPlace, Vector3 positionForPlaceObject)
     {
         Bounds currObjBounds = objForPlace.GetComponent<Renderer>().bounds;
-        float tY = surfaceMesh.bounds.max.y + (currObjBounds.center.y - currObjBounds.min.y);       // the profile of the object is taken into account in brackets
+
+        float tY = currObjBounds.size.y / 2;       // the profile of the object is taken into account in brackets
         positionForPlaceObject += Vector3.up * tY;
         objForPlace.transform.position = positionForPlaceObject;
     }
@@ -97,17 +104,9 @@ public class ItemPlacer : MonoBehaviour
     {
         float tX = Random.Range(bounds.min.x, bounds.max.x);
         float tZ = Random.Range(bounds.min.z, bounds.max.z);
-        return new Vector3(tX, bounds.center.y, tZ);
+        return new Vector3(tX, bounds.max.y + maxObjectSize, tZ);
     }
-    Renderer CoordonateCorrectnessDetector(Vector3 currPos)
-    {
-        foreach (var currMesh in SurfaceChildrenRendererList)
-        {
-            if (currMesh.bounds.Contains(currPos))
-                return currMesh;
-        }
-        return null;
-    }
+    
     List<Renderer> GetChildrenRendererList(GameObject parentObj)
     {
         List<Renderer> TempRendererList = new List<Renderer>();
@@ -118,7 +117,9 @@ public class ItemPlacer : MonoBehaviour
     List<GameObject> GetListOfObjectForPlace(GameObject[] A_itemPrefabs)
     // this method should be another, depends from rules
     {
+        //List<GameObject> tempObjectList = new List<GameObject>();
         List<GameObject> tempObjectList = new List<GameObject>();
+
         for (int it = 0; it < A_itemPrefabs.Length; it++)
             tempObjectList.Add(Instantiate(A_itemPrefabs[it], Vector3.up * (15 + it*5), Quaternion.identity));
         return tempObjectList;
