@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 1790641811133305083}
   - component: {fileID: 1790641811133305082}
   - component: {fileID: 9118297930822780385}
-  - component: {fileID: 8212850531499014277}
+  - component: {fileID: -8542575492570515640}
   m_Layer: 0
   m_Name: CG
-  m_TagString: Untagged
+  m_TagString: ObjectForSet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -113,7 +113,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &8212850531499014277
+--- !u!114 &-8542575492570515640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,5 +125,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71781a0335f736d4c8a93c4867235dcc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ground: {fileID: 0}
-  spawner: {fileID: 0}
