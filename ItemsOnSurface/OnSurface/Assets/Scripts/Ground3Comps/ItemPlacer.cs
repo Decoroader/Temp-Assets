@@ -112,6 +112,9 @@ public class ItemPlacer : MonoBehaviour
     bool IsPlacingCorrectness(GameObject currObj, List<GameObject> ListIntersectionWithThese, List<Renderer> ListSurfacePartsRenderer)
     {
         Bounds currObjBounds = currObj.GetComponent<Renderer>().bounds;
+        if (currObjBounds.Intersects(hero.GetComponent<Renderer>().bounds))
+            return false;
+
         foreach (GameObject withThis in ListIntersectionWithThese)
             if (currObjBounds.Intersects(withThis.GetComponent<Renderer>().bounds))
                 return false;
@@ -142,7 +145,7 @@ public class ItemPlacer : MonoBehaviour
         for (int it = 0; it < A_itemPrefabs.Length; it++)
         {
             A_itemPrefabs[it].GetComponent<Rigidbody>().isKinematic = true;
-            tempObjectList.Add(Instantiate(A_itemPrefabs[it], Vector3.up * (15 + it * 2), Quaternion.identity));
+            tempObjectList.Add(Instantiate(A_itemPrefabs[it], Vector3.up * (15 + it * 2), A_itemPrefabs[it].transform.rotation));
         }
         return tempObjectList;
     }
