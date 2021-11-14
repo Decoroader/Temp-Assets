@@ -7,7 +7,8 @@ public class ItemPlacer : MonoBehaviour
     public List<GameObject> ListObjectsForPlace;
     public List<GameObject> ListPlacedObjects;
 
-    public GameObject[] itemPrefabs;
+    public GameObject[] jamPrefabs;
+    public GameObject[] obstaclePrefabs;
 
     public GameObject hero;
     public GameObject surface;
@@ -17,6 +18,7 @@ public class ItemPlacer : MonoBehaviour
 
     private List<Renderer> SurfaceChildrenRendererList = new List<Renderer>();
     private Bounds boundsOverallSurface;
+    private GameObject[] itemPrefabs;
 
     //#if UNITY_EDITOR
     [SerializeField] private bool objectReplacing;
@@ -27,7 +29,7 @@ public class ItemPlacer : MonoBehaviour
         numberJam = 9;
         maxObjectSize = 2;
         objectReplacing = tempSwitcher = true;
-
+        itemPrefabs = obstaclePrefabs;
         GetSurfaceDataObjectsForPlace();
         StartCoroutine(DelayNPlace(numberJam));
     }

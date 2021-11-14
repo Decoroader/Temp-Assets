@@ -3058,7 +3058,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ListObjectsForPlace: []
-  itemPrefabs:
+  ListPlacedObjects: []
+  jamPrefabs:
   - {fileID: 1790641811133305077, guid: df2f36a2735535149bd206beae50471f, type: 3}
   - {fileID: 6117988545508707977, guid: 98deba2f4aefcda42bdc9dae3db20f04, type: 3}
   - {fileID: 3474726620780120846, guid: a31b1ea51cd4f3e45b7019abdd81eae0, type: 3}
@@ -3068,8 +3069,17 @@ MonoBehaviour:
   - {fileID: 8281175822498152407, guid: 33fec25673f87e24aaf55f799ab44323, type: 3}
   - {fileID: 7264045227778012023, guid: 0688e0e943d256543aa6ea1f3943263f, type: 3}
   - {fileID: 4706015407595829092, guid: 25f7f05c11cd1954eaec3b9914d2e9e7, type: 3}
+  obstaclePrefabs:
+  - {fileID: 6239916258981637224, guid: b505a49f199457f47bd774a1530b0959, type: 3}
+  - {fileID: 367562652261023818, guid: 1b8424e245a1f644bb87f4377bc8aa6f, type: 3}
+  - {fileID: 5173358567248898651, guid: 28b0921f611a8ec43a91d72f627b10a6, type: 3}
+  - {fileID: 7098918066646372624, guid: 210440a1de6110844beabbb6b7b0a25f, type: 3}
+  - {fileID: 5900611730252359709, guid: eff51e7c320f05b459f456673307d3cf, type: 3}
   hero: {fileID: 655922314}
   surface: {fileID: 2090408207}
+  numberJam: 0
+  maxObjectSize: 0
+  objectReplacing: 0
 --- !u!4 &1035700309
 Transform:
   m_ObjectHideFlags: 0
