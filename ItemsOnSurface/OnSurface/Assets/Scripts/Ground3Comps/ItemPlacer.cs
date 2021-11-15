@@ -32,22 +32,22 @@ public class ItemPlacer : MonoBehaviour
     void Placement(int numbObj)
     {
         float discretZ = boundsSurface.size.z / (numbObj);
-        Vector3 tPos;
-        int it = 0;
-        while (it < numbObj)
+        Vector3 tempPos;
+        int iterator = 0;
+        while (iterator < numbObj)
         {
-            GameObject currObj = ListObjectsForPlace[it];
+            GameObject currentObj = ListObjectsForPlace[iterator];
             
-            float sizeZObj = currObj.GetComponent<Renderer>().bounds.size.z;
+            float sizeZObj = currentObj.GetComponent<Renderer>().bounds.size.z;
             float tX = Random.Range(boundsSurface.min.x, boundsSurface.max.x);
-            float tZ = Random.Range(discretZ * (it + .5f) - sizeZObj, discretZ * (it + .5f) + sizeZObj);
-            tPos = new Vector3(tX, boundsSurface.max.y + maxObjectSize, boundsSurface.min.z + tZ);
+            float tZ = Random.Range(discretZ * (iterator + .5f) - sizeZObj, discretZ * (iterator + .5f) + sizeZObj);
+            tempPos = new Vector3(tX, boundsSurface.max.y + maxObjectSize, boundsSurface.min.z + tZ);
 
-            if (Physics.Raycast(tPos, Vector3.down, out RaycastHit hit))
+            if (Physics.Raycast(tempPos, Vector3.down, out RaycastHit hit))
             {
-                SetToSurface(currObj, hit.point);
-                if (IsObjInBoundsOfSurface(currObj, SurfaceChildrenRendererList))
-                    it++;
+                SetToSurface(currentObj, hit.point);
+                if (IsObjInBoundsOfSurface(currentObj, SurfaceChildrenRendererList))
+                    iterator++;
             }
         }
     }
