@@ -20,7 +20,7 @@ public class ItemPlacer : MonoBehaviour
     void Start()
     {
         maxObjectSize = 2;
-        itemPrefabs = obstaclePrefabs;
+        itemPrefabs = jamPrefabs;
 
         SurfaceChildrenRendererList = GetChildrenRendererList(surface);
         ListObjectsForPlace = GetListOfObjectForPlace(itemPrefabs);
