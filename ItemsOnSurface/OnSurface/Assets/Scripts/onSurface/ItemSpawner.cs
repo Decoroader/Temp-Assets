@@ -58,7 +58,7 @@ public class ItemSpawner : MonoBehaviour
 	{
 		float tX = XYGenerator(cameraPos.x - distanceCameraXBound + addWidth, cameraPos.x + distanceCameraXBound - addWidth);
 		float tZ = XYGenerator(cameraPos.z - distanceCameraZBound + addHeight, cameraPos.z + distanceCameraZBound - addHeight);
-		//Debug.Log("tX " + tX + " | tZ " + tZ);
+		Debug.Log("tX " + tX + " | tZ " + tZ);
 		tItem.transform.position = new Vector3(tX, 5, tZ);
 	}
 	float XYGenerator(float minR, float maxR)
